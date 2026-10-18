@@ -3,16 +3,18 @@
   "purpose": "Homepage for user's father (60s, jazz/vinyl fan) who repairs amps/speakers as a hobby. Goal: show track record and personality.",
   "decisions": {
     "architecture": "Static HTML/CSS site + external blog (note or Hatena, undecided) linked from works.html (#blog-link)",
-    "hosting": "Cloudflare Pages candidate (git push auto-deploy)",
+    "hosting": "Cloudflare Pages: https://tadashi-audio.pages.dev/ (GitHub repo sagojo755/tadashi-audio, branch main, auto-deploy on push). An older Workers deployment exists at tadashi-audio.shutto1414-cloud.workers.dev (can be deleted).",
     "father_posts": "Father will post via smartphone to the external blog",
     "no_pricing_or_form": "Contact info (phone/mail) only",
-    "design": "Jazz-cafe dark brown/gold, large serif text for readability",
+    "design": "3 design variants under designs/ (a-jazzcafe, b-bluenote, c-workshop) with chooser at designs/index.html; waiting for father to choose. Root index.html/css/style.css is currently variant A.",
     "images": "AI-generated placeholders in images/ (hero, about, repair1, repair2); replace with real photos using same filenames before public launch"
   },
+  "git_note": "Agent's git push hangs (credential manager UI not shown); user runs push in own terminal.",
   "todo": [
+    "Wait for father's design choice, then apply it to all 4 pages and root index",
     "Replace placeholder text/contact info (marked TODO in HTML)",
     "Decide external blog and set href in works.html",
     "Replace generated images with real photos",
-    "Set up Cloudflare Pages deployment"
+    "Consider noindex while placeholder; consider custom domain"
   ]
 }
