@@ -1,0 +1,18 @@
+{
+  "project": "Tadashi's Audio HP (placeholder name)",
+  "purpose": "Homepage for user's father (60s, jazz/vinyl fan) who repairs amps/speakers as a hobby. Goal: show track record and personality.",
+  "decisions": {
+    "architecture": "Static HTML/CSS site + external blog (note or Hatena, undecided) linked from works.html (#blog-link)",
+    "hosting": "Cloudflare Pages candidate (git push auto-deploy)",
+    "father_posts": "Father will post via smartphone to the external blog",
+    "no_pricing_or_form": "Contact info (phone/mail) only",
+    "design": "Jazz-cafe dark brown/gold, large serif text for readability",
+    "images": "AI-generated placeholders in images/ (hero, about, repair1, repair2); replace with real photos using same filenames before public launch"
+  },
+  "todo": [
+    "Replace placeholder text/contact info (marked TODO in HTML)",
+    "Decide external blog and set href in works.html",
+    "Replace generated images with real photos",
+    "Set up Cloudflare Pages deployment"
+  ]
+}

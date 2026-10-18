@@ -1,0 +1,68 @@
+:root {
+  --bg: #17110d;
+  --bg2: #221913;
+  --text: #efe4d2;
+  --muted: #b8a78f;
+  --gold: #d4a24c;
+  --line: #3a2d22;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", serif;
+  font-size: 19px;
+  line-height: 1.9;
+}
+a { color: var(--gold); }
+img { max-width: 100%; display: block; }
+
+header.site {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(23,17,13,.94);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  max-width: 1000px; margin: 0 auto; padding: 12px 20px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+}
+.logo { font-size: 1.4rem; color: var(--gold); text-decoration: none; letter-spacing: .08em; }
+nav a { color: var(--text); text-decoration: none; margin-left: 20px; font-size: 1rem; }
+nav a:hover, nav a.current { color: var(--gold); border-bottom: 1px solid var(--gold); }
+
+.hero {
+  min-height: 70vh;
+  background: linear-gradient(90deg, rgba(23,17,13,.85) 20%, rgba(23,17,13,.2)), url("../images/hero.jpg") center/cover;
+  display: flex; align-items: center;
+}
+.hero-inner { max-width: 1000px; margin: 0 auto; padding: 40px 20px; width: 100%; }
+.hero h1 { font-size: 2.4rem; color: var(--gold); margin: 0 0 .4em; letter-spacing: .1em; line-height: 1.4; }
+.hero p { max-width: 28em; font-size: 1.15rem; }
+
+main section, .page { max-width: 1000px; margin: 0 auto; padding: 56px 20px; }
+h2 { color: var(--gold); font-weight: normal; font-size: 1.7rem; border-bottom: 1px solid var(--line); padding-bottom: .3em; letter-spacing: .06em; }
+
+.btn {
+  display: inline-block; padding: 14px 32px; margin-top: 12px;
+  border: 1px solid var(--gold); color: var(--gold); text-decoration: none; border-radius: 2px;
+}
+.btn:hover { background: var(--gold); color: var(--bg); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.card { background: var(--bg2); border: 1px solid var(--line); }
+.card img { aspect-ratio: 4/3; object-fit: cover; width: 100%; }
+.card div { padding: 16px 20px 20px; }
+.card h3 { margin: 0 0 .3em; font-size: 1.15rem; color: var(--text); }
+.tag { display: inline-block; font-size: .8rem; color: var(--bg); background: var(--gold); padding: 0 .7em; margin-right: .4em; border-radius: 2px; }
+.muted { color: var(--muted); font-size: .9rem; }
+
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+@media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } nav a { margin: 0 14px 0 0; } .hero h1 { font-size: 1.8rem; } }
+
+.note { background: var(--bg2); border-left: 3px solid var(--gold); padding: 12px 20px; margin: 24px 0; }
+dl.contact dt { color: var(--gold); margin-top: 1em; }
+dl.contact dd { margin: 0; font-size: 1.3rem; }
+
+footer { text-align: center; padding: 32px 20px; color: var(--muted); border-top: 1px solid var(--line); font-size: .85rem; }
