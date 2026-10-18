@@ -1,5 +1,6 @@
 {
-  "project": "Tadashi's Audio HP (placeholder name)",
+  "update_2026-10-18": "LIVE: https://garakuta-koubou.pages.dev/ (Cloudflare Pages, repo sagojo755/garakuta-koubou, main auto-deploy). Design C adopted for all pages, site name 'ガラクタ工房'. Old tadashi-audio projects deleted. If CSS looks stale, hard-reload (browser cache). Remaining: see todo. Older hosting/design notes below are outdated.",
+  "project": "ガラクタ工房 (formerly placeholder 'Tadashi's Audio')",
   "purpose": "Homepage for user's father (60s, jazz/vinyl fan) who repairs amps/speakers as a hobby. Goal: show track record and personality.",
   "decisions": {
     "architecture": "Static HTML/CSS site + external blog (note or Hatena, undecided) linked from works.html (#blog-link)",

@@ -31,7 +31,8 @@ nav a:hover, nav a.current { text-decoration: underline; text-underline-offset: 
 .hero .frame { border: 10px solid #fff; box-shadow: 0 6px 18px rgba(60,40,20,.25); transform: rotate(-.8deg); }
 .hero img { aspect-ratio: 16/8; object-fit: cover; width: 100%; }
 .lead { max-width: 960px; margin: 28px auto 0; padding: 0 20px; text-align: center; }
-.lead h1 { font-size: 2rem; margin: 0 0 .3em; color: var(--wood); font-weight: normal; }
+.lead h1 { font-size: 2rem; margin: 0 0 .3em; color: var(--wood); font-weight: normal; text-wrap: balance; }
+.lead p { text-wrap: balance; }
 
 .btn {
   display: inline-block; margin-top: 10px; background: var(--green); color: #fff;
@@ -56,9 +57,17 @@ h2::after { content: ""; display: block; width: 60px; height: 3px; background: v
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
 .about-grid .frame { border: 10px solid #fff; box-shadow: 0 6px 18px rgba(60,40,20,.25); transform: rotate(.8deg); }
 @media (max-width: 700px) {
+  body { font-size: 18px; }
   .about-grid { grid-template-columns: 1fr; }
-  nav a { margin: 0 14px 0 0; }
+  .header-inner { flex-direction: column; align-items: stretch; gap: 6px; padding: 12px 12px 10px; }
+  .logo { text-align: center; font-size: 1.4rem; }
+  nav { display: flex; justify-content: space-between; border-top: 1px solid rgba(246,239,224,.3); padding-top: 6px; }
+  nav a { margin: 0; flex: 1; text-align: center; font-size: .95rem; white-space: nowrap; padding: 4px 0; }
+  .hero { margin-top: 20px; }
   .lead h1 { font-size: 1.5rem; }
+}
+@media (max-width: 360px) {
+  nav a { font-size: .85rem; }
 }
 
 .note { background: var(--paper); border-left: 4px solid var(--green); padding: 12px 20px; margin: 24px 0; }
