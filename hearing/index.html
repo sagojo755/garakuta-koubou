@@ -31,6 +31,19 @@
 .opt { color: #8b7860; font-size: .85rem; }
 .how li { margin: .4em 0; }
 .pill { background: var(--green); color: #fff; font-size: .75rem; padding: 0 8px; border-radius: 10px; }
+.q textarea { display: block; width: 100%; min-height: 5.5em; margin-top: 10px; padding: 10px 12px; font: inherit; font-size: 18px; line-height: 1.7; color: var(--ink); background: #fff; border: 2px solid var(--line); border-radius: 6px; resize: vertical; }
+.q textarea:focus { outline: none; border-color: var(--green); }
+.q textarea.filled { border-color: var(--green); background: #f6fbf3; }
+.q .photo-note { margin-top: 10px; background: #eef4ea; border: 1px dashed var(--green); padding: 8px 12px; font-size: .95rem; color: var(--green); }
+.send { max-width: 760px; margin: 0 auto; padding: 24px 20px 40px; }
+.send h2 { text-align: left; border-bottom: 2px solid var(--wood); padding-bottom: 6px; }
+.send h2::after { display: none; }
+.send .count { font-size: 1.05rem; margin: 8px 0 16px; }
+.sbtn { display: block; width: 100%; padding: 16px; margin: 12px 0; font: inherit; font-size: 1.15rem; border: 0; border-radius: 10px; cursor: pointer; background: var(--green); color: #fff; text-align: center; text-decoration: none; }
+.sbtn.sub { background: #fff; color: var(--wood); border: 2px solid var(--wood); }
+.sbtn.line { background: #06c755; }
+.send .msg { min-height: 1.6em; color: var(--green); font-size: 1rem; }
+.send .small { font-size: .9rem; color: #8b7860; }
 </style>
 </head>
 <body>
@@ -48,6 +61,8 @@
       <li>文章は、話し言葉のままで構いません。きれいに整えるのはこちらでやります。</li>
       <li><span class="photo" style="margin-left:0">写真</span>が付いているものは、スマホで撮った写真を送ってください。</li>
       <li>載せたくないことは、「載せない」と書いてください。</li>
+      <li>各質問の下の<b>入力欄</b>に書いてください。書いた内容は、この端末に<b>自動で保存</b>されます。途中でやめても、あとで続きから書けます。</li>
+      <li>書き終わったら、いちばん下の<b>「LINEで送る」</b>を押してください。</li>
     </ul>
   </div>
 </div>
@@ -141,6 +156,104 @@
     <p>思いついたことは、何でも教えてください。</p></div>
 </div>
 
+<div class="send" id="send">
+  <h2>書き終わったら</h2>
+  <p class="count" id="count"></p>
+  <a class="sbtn line" id="btn-line" href="#">LINEで送る</a>
+  <button class="sbtn" id="btn-share" type="button" hidden>ほかのアプリで送る</button>
+  <button class="sbtn sub" id="btn-copy" type="button">回答をコピーする</button>
+  <p class="msg" id="msg" role="status"></p>
+  <p class="small">・「LINEで送る」を押すと、LINEが開きます。送る相手を選んで、送信してください。<br>
+  ・文章が長くて送れないときは、「回答をコピーする」を押して、LINEに貼り付けてください。<br>
+  ・写真は、LINEで別に送ってください。（どの番号の写真か、書き添えてください）</p>
+</div>
+
 <footer>ご協力ありがとうございます。分かるところからで大丈夫です。</footer>
+
+<script>
+(function () {
+  var KEY = "garakuta-hearing-v1";
+  var PHOTO_ONLY = { "3": 1, "6": 1, "8": 1 };
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+  var items = [];
+
+  document.querySelectorAll(".q").forEach(function (q) {
+    var badge = q.querySelector(".head .badge");
+    if (!badge) return;
+    var no = badge.textContent.trim();
+    var head = q.querySelector(".head").cloneNode(true);
+    head.querySelectorAll(".badge,.photo,.opt").forEach(function (n) { n.remove(); });
+    var title = head.textContent.trim();
+
+    if (PHOTO_ONLY[no]) {
+      var note = document.createElement("div");
+      note.className = "photo-note";
+      note.textContent = "写真は、LINEで別に送ってください。（「" + no + "の写真」と書き添えてください）";
+      q.appendChild(note);
+      return;
+    }
+    var ta = document.createElement("textarea");
+    ta.placeholder = "ここに入力してください";
+    ta.setAttribute("aria-label", "質問" + no + "の回答");
+    ta.value = saved[no] || "";
+    ta.addEventListener("input", function () {
+      saved[no] = ta.value;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      refresh();
+    });
+    q.appendChild(ta);
+    items.push({ no: no, title: title, ta: ta });
+  });
+
+  function buildText() {
+    var out = ["【ガラクタ工房　HPの質問への回答】", ""];
+    var blank = [];
+    items.forEach(function (it) {
+      var v = it.ta.value.trim();
+      if (v) { out.push("■" + it.no + " " + it.title); out.push(v); out.push(""); }
+      else blank.push(it.no);
+    });
+    if (blank.length) out.push("（未回答：" + blank.join("、") + "）");
+    return out.join("\n").trim();
+  }
+
+  function refresh() {
+    var n = 0;
+    items.forEach(function (it) {
+      var ok = it.ta.value.trim() !== "";
+      it.ta.classList.toggle("filled", ok);
+      if (ok) n++;
+    });
+    document.getElementById("count").textContent = "入力済み：" + n + " / " + items.length + " 問";
+    document.getElementById("btn-line").href = "https://line.me/R/msg/text/?" + encodeURIComponent(buildText());
+  }
+  refresh();
+
+  function say(t) { document.getElementById("msg").textContent = t; }
+
+  document.getElementById("btn-copy").addEventListener("click", function () {
+    var text = buildText();
+    function fallback() {
+      var t = document.createElement("textarea");
+      t.value = text; document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); say("コピーしました。LINEに貼り付けてください。"); }
+      catch (e) { say("コピーできませんでした。"); }
+      t.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { say("コピーしました。LINEに貼り付けてください。"); }, fallback);
+    } else { fallback(); }
+  });
+
+  var share = document.getElementById("btn-share");
+  if (navigator.share) {
+    share.hidden = false;
+    share.addEventListener("click", function () {
+      navigator.share({ title: "ガラクタ工房 回答", text: buildText() }).catch(function () {});
+    });
+  }
+})();
+</script>
 </body>
 </html>
