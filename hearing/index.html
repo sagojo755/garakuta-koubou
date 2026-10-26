@@ -34,6 +34,9 @@
 .q textarea { display: block; width: 100%; min-height: 5.5em; margin-top: 10px; padding: 10px 12px; font: inherit; font-size: 18px; line-height: 1.7; color: var(--ink); background: #fff; border: 2px solid var(--line); border-radius: 6px; resize: vertical; }
 .q textarea:focus { outline: none; border-color: var(--green); }
 .q textarea.filled { border-color: var(--green); background: #f6fbf3; }
+.savestate { min-height: 1.6em; margin-top: 4px; font-size: .9rem; color: #8b7860; }
+.savestate.ok { color: var(--green); }
+.savestate.ng { color: #c8372d; }
 .q .photo-note { margin-top: 10px; background: #eef4ea; border: 1px dashed var(--green); padding: 8px 12px; font-size: .95rem; color: var(--green); }
 .send { max-width: 760px; margin: 0 auto; padding: 24px 20px 40px; }
 .send h2 { text-align: left; border-bottom: 2px solid var(--wood); padding-bottom: 6px; }
@@ -61,7 +64,8 @@
       <li>文章は、話し言葉のままで構いません。きれいに整えるのはこちらでやります。</li>
       <li><span class="photo" style="margin-left:0">写真</span>が付いているものは、スマホで撮った写真を送ってください。</li>
       <li>載せたくないことは、「載せない」と書いてください。</li>
-      <li>各質問の下の<b>入力欄</b>に書いてください。書いた内容は、この端末に<b>自動で保存</b>されます。途中でやめても、あとで続きから書けます。</li>
+      <li>各質問の下の<b>入力欄</b>に書いてください。書いた内容は、この端末に<b>自動で保存</b>されます。途中でやめても、あとで続きから書けます。各質問の下に「✓ 保存しました」と出れば、保存できています。</li>
+      <li>続きを書くときは、<b>同じスマホの同じブラウザ</b>で、このページをもう一度開いてください。（ブラウザの「プライベートモード」では保存されません）</li>
       <li>書き終わったら、いちばん下の<b>「LINEで送る」</b>を押してください。</li>
     </ul>
   </div>
@@ -197,12 +201,27 @@
     ta.placeholder = "ここに入力してください";
     ta.setAttribute("aria-label", "質問" + no + "の回答");
     ta.value = saved[no] || "";
+    var st = document.createElement("div");
+    st.className = "savestate";
+    q.appendChild(ta);
+    q.appendChild(st);
+    if (ta.value.trim()) st.textContent = "✓ 前回の入力が保存されています";
+    var timer;
     ta.addEventListener("input", function () {
-      saved[no] = ta.value;
-      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      st.textContent = "入力中…";
+      st.className = "savestate";
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        saved[no] = ta.value;
+        var ok = true;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { ok = false; }
+        var d = new Date();
+        var t = d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2);
+        if (ok) { st.textContent = "✓ 保存しました（" + t + "）"; st.className = "savestate ok"; }
+        else { st.textContent = "保存できませんでした。送る前にコピーしておいてください。"; st.className = "savestate ng"; }
+      }, 500);
       refresh();
     });
-    q.appendChild(ta);
     items.push({ no: no, title: title, ta: ta });
   });
 
