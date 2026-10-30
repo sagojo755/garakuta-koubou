@@ -29,7 +29,8 @@ nav a:hover, nav a.current { text-decoration: underline; text-underline-offset: 
 
 .hero { max-width: 960px; margin: 32px auto 0; padding: 0 20px; }
 .hero .frame { border: 10px solid #fff; box-shadow: 0 6px 18px rgba(60,40,20,.25); transform: rotate(-.8deg); }
-.hero img { aspect-ratio: 16/8; object-fit: cover; width: 100%; }
+.hero img { aspect-ratio: 3/2; object-fit: cover; width: 100%; }
+.card:not(:has(img)) { padding-top: 18px; }
 .lead { max-width: 960px; margin: 28px auto 0; padding: 0 20px; text-align: center; }
 .lead h1 { font-size: 2rem; margin: 0 0 .3em; color: var(--wood); font-weight: normal; text-wrap: balance; }
 .lead p { text-wrap: balance; }
