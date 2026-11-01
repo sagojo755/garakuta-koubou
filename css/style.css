@@ -121,3 +121,44 @@ footer { text-align: center; padding: 28px; color: #8b7860; border-top: 1px soli
 .friend:hover { border-color: var(--green); }
 .friend b { display: block; color: var(--wood); font-weight: normal; font-size: 1.1rem; }
 .friend span { font-size: .9rem; color: #6b5844; }
+
+/* ===== 仕上げ（灯り・写真の帯・ふわっと表示・フッター） ===== */
+:root { --amber: #d4a24c; }
+
+/* 各ページ上部の写真の帯（暖色フィルター＋周辺を暗く） */
+.page-banner { position: relative; height: 170px; overflow: hidden; background: #2a1a0e; }
+.page-banner img { position: absolute; inset: -8px; width: calc(100% + 16px); height: calc(100% + 16px); object-fit: cover; filter: sepia(.55) saturate(1.1) contrast(1.05) brightness(.75) blur(1px); }
+.page-banner::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(30,18,10,.15), rgba(246,239,224,0) 55%, var(--cream) 100%),
+              radial-gradient(ellipse at center, rgba(30,18,10,.1), rgba(20,12,6,.6) 100%);
+}
+.page-banner + .page { padding-top: 28px; }
+
+/* 見出しの下線：真空管の灯りのような、ほのかな光 */
+h2::after { background: var(--amber); box-shadow: 0 0 10px 1px rgba(212,162,76,.6); }
+
+/* ボタン：灯りが点るように */
+.btn { transition: background .25s, box-shadow .25s, transform .25s; box-shadow: 0 0 0 rgba(212,162,76,0); }
+.btn:hover { box-shadow: 0 0 22px 2px rgba(212,162,76,.55); transform: translateY(-1px); }
+.hero-photo .btn { box-shadow: 0 0 20px rgba(255,170,70,.3); }
+.hero-photo .btn:hover { box-shadow: 0 0 28px 4px rgba(255,170,70,.6); }
+
+/* カード：近づくと少し浮く */
+.card { transition: transform .3s, box-shadow .3s; }
+.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 10px 22px rgba(60,40,20,.28); }
+
+/* ふわっと表示（JavaScriptが使えるときだけ） */
+.js .reveal { opacity: 0; translate: 0 16px; transition: opacity .7s ease, translate .7s ease; }
+.js .reveal.in { opacity: 1; translate: 0 0; }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; translate: 0 0; transition: none; }
+  .btn, .card { transition: none; }
+}
+
+/* フッター */
+footer { padding: 36px 20px; line-height: 1.9; }
+footer p { margin: .1em 0; }
+footer a { color: var(--wood); }
+footer .foot-name { font-size: 1.2rem; letter-spacing: .12em; color: var(--wood); }
+footer .foot-copy { margin-top: .8em; font-size: .8rem; color: #a8957b; }
